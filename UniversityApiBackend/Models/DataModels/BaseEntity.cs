@@ -7,11 +7,17 @@ namespace UniversityApiBackend.Models.DataModels
         [Required]
         [Key] 
         public int Id { get; set; }
+
         public string CreatedBy { get; set; } = string.Empty;// para tener un campo vacio
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
         public string UpdatedBy { get; set; } = string.Empty;
+
         public DateTime? UpdatedAt { get; set; }
+
         public string DeleteBy { get; set; } = string.Empty;
+
         public DateTime DeleteAt { get; set; }
 
         public bool IsDeleted { get; set; } = false;
