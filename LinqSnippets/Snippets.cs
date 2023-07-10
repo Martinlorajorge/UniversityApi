@@ -262,5 +262,217 @@ namespace LinqSnippets
 
         }
 
+        //paging
+        public static IEnumerable<T> GetPage<T>(IEnumerable<T> collection, int pageNumber, int resultsPerPage)
+        {
+            int startIndex = (pageNumber - 1) * resultsPerPage;
+            return collection.Skip(startIndex).Take(resultsPerPage);
+
+        }
+
+
+        //variables
+        public static void LinqVariables()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+            var aboveAverage = from number in numbers 
+                               let average = numbers.Average() // Con esto saca la media de un numero
+                               let nSquared = Math.Pow(number, 2) // al numero lo elevo a potencia de 2 osea elevo al cuadrado
+                               where nSquared > average       // osea que aqui digo que cuando el numero al cuadrado este por encima de la media
+                               select number;                // obtengo el numero
+
+            Console.WriteLine("Average: {0}", numbers.Average()); // Muestra la media del numero
+
+            foreach (var number in aboveAverage)
+            {
+                Console.WriteLine("Number: {0} Square {1}",number,Math.Pow(number, 2)); // Al cuadrado
+            }
+
+        }
+
+        //ZIP
+        public static void ZipLinq()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5 };
+            string[] stringNumbers = { "One", "Two", "Three", "Four", "Five" };
+
+            IEnumerable<string> zipNumbers = numbers.Zip(stringNumbers, (number, word) => number + " = " + word);
+
+            // { "1 = One", "2 = Two", "3 = Three", "4 = Four", "5 = Five" }
+        }
+
+        //Repeat & Range
+        public static void repeatRangeLinq()
+        {
+            // Generar collection from 1 - 1000 --> Range
+            IEnumerable<int> first1000 = Enumerable.Range(1, 1000);
+
+            // repeat a value N times
+            IEnumerable<string> fiveXs = Enumerable.Repeat("X", 5); //Repite 5 veces la X --> X, X, X, X, X
+        }
+
+        public static void StudentLinq()
+        {
+            var classRoom = new[]
+            {
+                new Student
+                {
+                    Id = 1,
+                    Name = "Martin",
+                    Grade = 90,
+                    Certified = true
+                },
+                new Student
+                {
+                    Id = 2,
+                    Name = "Juan",
+                    Grade = 50,
+                    Certified = false
+                },
+                new Student
+                {
+                    Id = 3,
+                    Name = "Ana",
+                    Grade = 96,
+                    Certified = true
+                },
+                new Student
+                {
+                    Id = 4,
+                    Name = "Álvaro",
+                    Grade = 10,
+                    Certified = false
+                },
+                new Student
+                {
+                    Id = 5,
+                    Name = "Pedro",
+                    Grade = 50,
+                    Certified = true
+                }
+            };
+
+            // Selecciona los alumnos que estan certificados
+            var certifiedStudent = from student in classRoom
+                                   where student.Certified
+                                   select student;
+
+            // selecciona alumnos no certificados
+            var noCertifiedStudent = from student in classRoom
+                                   where student.Certified == false
+                                   select student;
+
+
+            // Selecciona a los alumnos aprovados y certificados por su nombre
+            var aprovedStudentsNames =  from student in classRoom
+                                        where student.Grade >= 50 && student.Certified == true
+                                        select student.Name;
+        }
+
+        //ALL
+        public static void AllLinq()
+        {
+            var numbers = new List<int>() {1, 2, 3, 4, 5};
+
+            bool allAreSmallerThan10 = numbers.All(x => x < 10); // true
+            bool allAreBiggerOrEqualsThan2 = numbers.All(x => x >= 2); // false
+        }
+
+        //aggregate
+        public static void AggregateQueries()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            //Sum all Numbers
+            int sum = numbers.Aggregate((prevSum, current) => prevSum + current);
+            /*
+            0+1=1
+            1+1=2
+            2+2=4
+            4+3=7 
+            7+4=11 ... asi sucesivamente
+             */
+
+            string[] words = { "Hello,", "my", "name", "is", "Martin" };
+            string greeting = words.Aggregate((prevGreeting, current)  => prevGreeting + current);
+            /*
+            "","Hello,"=  hello,
+            "Hello,", "my"= Hello, my
+            ... asi sucesivamente
+             */
+        }
+
+        //Disctinct
+        public static void disctinnctValue()
+        {
+
+            int[] numbers = { 1, 2, 3, 4, 5, 5, 4, 3, 2, 1 };
+
+            IEnumerable<int> disctinctValues = numbers.Distinct();
+        }
+
+        //GroupBy
+        static public void GroupByExample()
+        {
+            List<int> numbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            // obteer agrupacion de pares
+            var grouped = numbers.GroupBy(x => x % 2 == 0);
+
+            foreach (var group in grouped)
+            {
+                foreach (var value in group)
+                {
+                    Console.WriteLine(value); // 1,3,5,7,9 ..... 2,4,6,8
+                }
+            }
+
+            var classRoom = new[]
+            {
+                new Student
+                {
+                    Id = 1,
+                    Name = "Martin",
+                    Grade = 90,
+                    Certified = true
+                },
+                new Student
+                {
+                    Id = 2,
+                    Name = "Juan",
+                    Grade = 50,
+                    Certified = false
+                },
+                new Student
+                {
+                    Id = 3,
+                    Name = "Ana",
+                    Grade = 96,
+                    Certified = true
+                },
+                new Student
+                {
+                    Id = 4,
+                    Name = "Álvaro",
+                    Grade = 10,
+                    Certified = false
+                },
+                new Student
+                {
+                    Id = 5,
+                    Name = "Pedro",
+                    Grade = 50,
+                    Certified = true
+                }
+            };
+
+            var certifiedQuery = classRoom.GroupBy(student => student.Certified && student.Grade >= 50);
+
+            //ahora puedo hacer un foreach y obtener los certificados y los no certificados
+
+        }
+
+
     }
 }
