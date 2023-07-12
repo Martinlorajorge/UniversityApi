@@ -5,7 +5,7 @@
         //KEY
         public bool ValidateIssuerSigningKey { get; set; }
 
-        public string? IssuerSiningKey { get; set; }
+        public string IssuerSiningKey { get; set; } = string.Empty;
 
 
         //Isuuer
@@ -21,7 +21,7 @@
 
 
         //Expiration
-        public bool ExpirationTime { get; set; }
+        public bool RequireExpirationTime { get; set; }
 
         public bool ValidateLifetime { get; set; } = true;
 
