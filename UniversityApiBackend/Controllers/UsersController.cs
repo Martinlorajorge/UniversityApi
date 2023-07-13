@@ -24,24 +24,15 @@ namespace UniversityApiBackend.Controllers
         // GET: api/Users https://localhost:7111/api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-        {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-            return await _context.Users.ToListAsync();
+        { 
+              return await _context.Users.ToListAsync();
         }
 
         // GET: api/Users/5    https://localhost:7111/api/Users     y se agrega un / y el id del usuario
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-           var user = await _context.Users.FindAsync(id); // FindAsyng(id) quiere decir que busca por ID
- 
+          var user = await _context.Users.FindAsync(id); // FindAsyng(id) quiere decir que busca por ID
             if (user == null)
             {
                 return NotFound();

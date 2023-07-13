@@ -5,13 +5,13 @@
         //KEY
         public bool ValidateIssuerSigningKey { get; set; }
 
-        public string IssuerSiningKey { get; set; } = string.Empty;
+        public string IssuerSigningKey { get; set; } = string.Empty;
 
 
         //Isuuer
         public bool ValidateIssuer { get; set; } = true;
 
-        public string? ValidIssuer { get; set; }
+        public string? ValidIssuer { get; set; } 
 
 
         //Audience

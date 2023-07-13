@@ -25,7 +25,7 @@ namespace UniversityApiBackend.Helpers
                 claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
             }else if (userAccounts.UserName == "User 1")
             {
-                claims.Add(new Claim(ClaimTypes.Role, "User"));
+                claims.Add(new Claim(ClaimTypes.Role,"User"));
                 claims.Add(new Claim("UserOnly","User 1"));
             }
 
@@ -52,7 +52,7 @@ namespace UniversityApiBackend.Helpers
                 }
 
                 //Obtain SECRET KEY
-                var key = System.Text.Encoding.ASCII.GetBytes(jwtSettings.IssuerSiningKey);
+                var key = System.Text.Encoding.ASCII.GetBytes( jwtSettings.IssuerSigningKey);
 
                 Guid Id;
 

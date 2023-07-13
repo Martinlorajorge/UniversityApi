@@ -1,5 +1,7 @@
 //1. Using para trabajar con EntityFramework
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using UniversityApiBackend;
 using UniversityApiBackend.DataAccess;
 using UniversityApiBackend.Services;
 
@@ -15,7 +17,7 @@ builder.Services.AddDbContext<UniversityDBContext>(options => options.UseSqlServ
 
 
 //7. Add Service of JWT Autorization
-//builder.Services.AddJwtTokenServices(builder.Configuration);
+builder.Services.AddJwtTokenServices(builder.Configuration);
 
 
 // Add services to the container.
@@ -26,17 +28,51 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IStudentsService, StudentsService>();
 //Aqui abajo agragaria el resto de los servicios
 
+
+
+//8. agregar autorizacion al proyecto
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("UserOnlyPolicy", policy => policy.RequireClaim("UserOnly", "User1"));
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
 
+//9.Configurar Swwager para la Autorizacion de JWT
+builder.Services.AddSwaggerGen(options =>
+        {   //Define la seguridad de autentificacion
+            options.AddSecurityDefinition("Bearer", new OpenApiSegurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "JWT Authorization Header using Bearer Scheme"
+            });
 
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[]{ }
+                    }
+                });
+        }
+);
 
-//8.Configurar Swwager para la Autorizacion de JWT
-builder.Services.AddSwaggerGen();
-
-
-//CORS Configuration
+//5. CORS Configuration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "CorsPolicy", builder =>

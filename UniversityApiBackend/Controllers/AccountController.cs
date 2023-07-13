@@ -21,10 +21,12 @@ namespace UniversityApiBackend.Controllers
             _jwtSettings = jwtSettings;
         }
 
+
+        //To Do: Cambiar por usuarios Reales en la DB.
         private IEnumerable<User> Logins = new List<User>()
         {
             new User {
-                Id = 1,
+                Id = 0,
                 Email = "martin@cualquiercosa.com",
                 Name = "Admin",
                 Password = "Admin"
@@ -40,7 +42,7 @@ namespace UniversityApiBackend.Controllers
 
 
         [HttpPost]
-        public IActionResult GetToken(UserLogins userLogins, UserTokens jwtHelpers)
+        public IActionResult GetToken(UserLogins userLogins)
         {
             try
             {
@@ -75,7 +77,7 @@ namespace UniversityApiBackend.Controllers
 
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme,Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public IActionResult GetUserList()
         {
             return Ok(Logins);
