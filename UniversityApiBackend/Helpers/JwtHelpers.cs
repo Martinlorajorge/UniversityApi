@@ -23,7 +23,7 @@ namespace UniversityApiBackend.Helpers
             if (userAccounts.UserName == "Admin")
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
-            }else if (userAccounts.UserName == "User 1")
+            }else if (userAccounts.UserName == "User 1") // Tambien se puede poner si es distinto a Admin para que se sepa que sea un usuario basico
             {
                 claims.Add(new Claim(ClaimTypes.Role,"User"));
                 claims.Add(new Claim("UserOnly","User 1"));
@@ -40,7 +40,7 @@ namespace UniversityApiBackend.Helpers
             return GetClaims(userAccounts, Id);
         }
 
-
+        //Obtener el Token
         public static UserTokens GetTokenKey(UserTokens model, JwtSettings jwtSettings)
         {
             try
@@ -54,24 +54,25 @@ namespace UniversityApiBackend.Helpers
                 //Obtain SECRET KEY
                 var key = System.Text.Encoding.ASCII.GetBytes( jwtSettings.IssuerSigningKey);
 
+                //Genero el GUID 
                 Guid Id;
 
                 //Expires in 1 Day
                 DateTime expireTime = DateTime.UtcNow.AddDays(1);
 
-                //Validity of out token
+                //Validity of out token (Valides del token)
                 userToken.Validity = expireTime.TimeOfDay;
 
-                // Generate Our JWT
+                // Generate Our JWT(Generar JWT)
                 var jwToken = new JwtSecurityToken(
                     issuer: jwtSettings.ValidIssuer,
                     audience: jwtSettings.ValidAudience,
                     claims: GetClaims(model, out Id),
                     notBefore: new DateTimeOffset(DateTime.Now).DateTime,
                     expires: new DateTimeOffset(expireTime).DateTime,
-                    signingCredentials: new SigningCredentials( //  Esto va a sifrar todo
-                            new SymmetricSecurityKey(key),
-                            SecurityAlgorithms.HmacSha256));
+                    signingCredentials: new SigningCredentials( // Esto va a sifrar todo
+                            new SymmetricSecurityKey(key),      // Esta es la clave que tiene que utilizar
+                            SecurityAlgorithms.HmacSha256));    // Este es el algoritmo que sifra la informacion
 
 
                 userToken.Token = new JwtSecurityTokenHandler().WriteToken(jwToken);
@@ -87,10 +88,6 @@ namespace UniversityApiBackend.Helpers
             {
                 throw new Exception("Error Generating the JWT", exception);
             }
-
-
         }
-
-
     }
 }

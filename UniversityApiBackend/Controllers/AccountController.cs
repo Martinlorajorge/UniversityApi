@@ -48,7 +48,8 @@ namespace UniversityApiBackend.Controllers
             {
                 var Token = new UserTokens();
                 var Valid = Logins.Any(user => user.Name.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
-
+                // Any es como decir si cualquiera coincide
+                
                 if (Valid)
                 {
                     var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
@@ -75,7 +76,7 @@ namespace UniversityApiBackend.Controllers
             }
         }
 
-
+        // Esto es para que solo los administradores puedan ver a todos los usuarios en el sistema
         [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public IActionResult GetUserList()
