@@ -26,35 +26,35 @@ namespace UniversityApiBackend.Controllers
         private IEnumerable<User> Logins = new List<User>()
         {
             new User {
-                Id = 0,
+                Id = 1,
                 Email = "martin@cualquiercosa.com",
                 Name = "Admin",
                 Password = "Admin"
             },
             new User {
-                Id = 1,
+                Id = 2,
                 Email = "pepe@cualquiercosa.com",
                 Name = "User1",
                 Password = "pepe"
-            },
+            }
 
         };
 
 
         [HttpPost]
-        public IActionResult GetToken(UserLogins userLogins)
+        public IActionResult GetToken(UserLogins userLogin)
         {
             try
             {
                 var Token = new UserTokens();
-                var Valid = Logins.Any(user => user.Name.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
+                var Valid = Logins.Any( user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
                 // Any es como decir si cualquiera coincide
                 
                 if (Valid)
                 {
-                    var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogins.UserName, StringComparison.OrdinalIgnoreCase));
+                    var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
-                    Token = JwtHelpers.GetTokenKey(new UserTokens()
+                    Token = JwtHelpers.GenTokenKey(new UserTokens()
                     {
                         UserName = user.Name,
                         EmailId = user.Email,
@@ -69,8 +69,7 @@ namespace UniversityApiBackend.Controllers
                     return BadRequest("Wrong Password");
                 }
                 return Ok(Token);
-            }
-            catch (Exception ex)
+            }catch (Exception ex)
             {
                 throw new Exception("GetToken ERROR", ex);
             }
@@ -78,7 +77,7 @@ namespace UniversityApiBackend.Controllers
 
         // Esto es para que solo los administradores puedan ver a todos los usuarios en el sistema
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrador")]
         public IActionResult GetUserList()
         {
             return Ok(Logins);

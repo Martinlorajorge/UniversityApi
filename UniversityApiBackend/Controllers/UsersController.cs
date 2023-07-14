@@ -25,7 +25,7 @@ namespace UniversityApiBackend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         { 
-              return await _context.Users.ToListAsync();
+              return await _context.Users.ToListAsync(); 
         }
 
         // GET: api/Users/5    https://localhost:7111/api/Users     y se agrega un / y el id del usuario
@@ -75,7 +75,7 @@ namespace UniversityApiBackend.Controllers
         // POST: api/Users  https://localhost:7111/api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>>PostUser(User user)
         {
           if (_context.Users == null)
           {

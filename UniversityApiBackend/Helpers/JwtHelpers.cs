@@ -17,16 +17,15 @@ namespace UniversityApiBackend.Helpers
                  new Claim(ClaimTypes.Expiration, DateTime.UtcNow.AddDays(1).ToString("MMM ddd dd yyyyy HH:mm:ss tt")),
             };
 
-
-
             //Con estos If creo Roles distintos, Utilizando como identificador el Name pero se puede utilizar cualquier premiza
             if (userAccounts.UserName == "Admin")
             {
-                claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
-            }else if (userAccounts.UserName == "User 1") // Tambien se puede poner si es distinto a Admin para que se sepa que sea un usuario basico
+                claims.Add(new Claim(ClaimTypes.Role, "Administrador"));
+            }
+            if (userAccounts.UserName == "User1") // Tambien se puede poner si es distinto a Admin para que se sepa que sea un usuario basico
             {
                 claims.Add(new Claim(ClaimTypes.Role,"User"));
-                claims.Add(new Claim("UserOnly","User 1"));
+                claims.Add(new Claim("UserOnly", "User1"));
             }
 
             return claims;
@@ -41,7 +40,7 @@ namespace UniversityApiBackend.Helpers
         }
 
         //Obtener el Token
-        public static UserTokens GetTokenKey(UserTokens model, JwtSettings jwtSettings)
+        public static UserTokens GenTokenKey(UserTokens model, JwtSettings jwtSettings)
         {
             try
             {
