@@ -9,7 +9,7 @@ namespace UniversityApiBackend
     {
         public static void AddJwtTokenServices(this IServiceCollection Services, IConfiguration Configuration)
         {
-            //ADD JWT Settings
+            //ADD JWT Settings tanto Jwtsettings.cs y el JsonWebTokenKeys se configuran en esta lineas
             var bindJwtSettings = new JwtSettings();
             Configuration.Bind("JsonWebTokenKeys", bindJwtSettings);
 
@@ -23,11 +23,11 @@ namespace UniversityApiBackend
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;    // identificacion de usuarios por JWT
                 })
                 .AddJwtBearer(options =>
-                {
+                {   //Estas son configuraciones por defecto
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameter()
-                    {
+                    {   //  Estos son parametros de configuracion del Token
                         ValidateIssuerSigningKey = bindJwtSettings.ValidateIssuerSigningKey,
                         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(bindJwtSettings.IssuerSigningKey)),
                         ValidateIssuer = bindJwtSettings.ValidateIssuer,
