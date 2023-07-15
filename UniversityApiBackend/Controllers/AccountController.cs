@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using System.IdentityModel.Tokens.Jwt;
+using UniversityApiBackend.DataAccess;
 using UniversityApiBackend.Helpers;
 using UniversityApiBackend.Models.DataModels;
 
@@ -13,11 +14,13 @@ namespace UniversityApiBackend.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly UniversityDBContext _context;
 
         private readonly JwtSettings _jwtSettings;
 
-        public AccountController(JwtSettings jwtSettings)
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
         {
+            _context = context;
             _jwtSettings = jwtSettings;
         }
 

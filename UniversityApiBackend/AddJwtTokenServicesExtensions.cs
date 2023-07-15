@@ -26,7 +26,7 @@ namespace UniversityApiBackend
                 {   //Estas son configuraciones por defecto
                     options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                    options.TokenValidationParameters = new TokenValidationParameters()  // TokenValidationParameters() tiene que ser en pliral asi como se menciona OJO
                     {   //  Estos son parametros de configuracion del Token
                         ValidateIssuerSigningKey = bindJwtSettings.ValidateIssuerSigningKey,
                         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(bindJwtSettings.IssuerSigningKey)),
