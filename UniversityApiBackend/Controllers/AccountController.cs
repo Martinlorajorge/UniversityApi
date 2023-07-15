@@ -14,11 +14,11 @@ namespace UniversityApiBackend.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly UniversityDBContext _context;
+        private readonly UniversityDBContext _context;// Este context y el que esta en el constructor debajo vienen del UserController.cs
 
         private readonly JwtSettings _jwtSettings;
 
-        public AccountController(JwtSettings jwtSettings, UniversityDBContext context)
+        public AccountController(JwtSettings jwtSettings, UniversityDBContext context) //CONSTRUCTOR
         {
             _context = context;
             _jwtSettings = jwtSettings;
@@ -49,19 +49,32 @@ namespace UniversityApiBackend.Controllers
         {
             try
             {
+
+                //Realizar busqueda de user en el context con LinQ
+                var searchUser = (from user in _context.Users
+                                 where user.Name == userLogin.UserName &&
+                                 userLogin.Password == userLogin.Password
+                                 select user).FirstOrDefault(); //se encierra la consulta y se pone FirstOrDefault para traer la primera de todas las que pueda salir en el resultado de busqueda
+
+                Console.WriteLine("User Found", searchUser);
+
+
+
                 var Token = new UserTokens();
-                var Valid = Logins.Any( user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                //var Valid = Logins.Any( user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
                 // Any es como decir si cualquiera coincide
+
                 
-                if (Valid)
+                
+                if (searchUser != null)
                 {
-                    var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
+                    //var user = Logins.FirstOrDefault(user => user.Name.Equals(userLogin.UserName, StringComparison.OrdinalIgnoreCase));
 
                     Token = JwtHelpers.GenTokenKey(new UserTokens()
                     {
-                        UserName = user.Name,
-                        EmailId = user.Email,
-                        Id = user.Id,
+                        UserName = searchUser.Name,
+                        EmailId = searchUser.Email,
+                        Id = searchUser.Id,
                         GuidId = Guid.NewGuid(),
 
 
