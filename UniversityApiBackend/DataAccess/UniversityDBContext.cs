@@ -5,10 +5,8 @@ namespace UniversityApiBackend.DataAccess
 {
     public class UniversityDBContext: DbContext
     {
-        public UniversityDBContext(DbContextOptions<UniversityDBContext> options): base(options) 
-        {
-
-
+        public UniversityDBContext(DbContextOptions<UniversityDBContext> options): base(options)
+        { 
         }
 
         //Add DbSet (Esto va a crear Tablas de la base de datos)

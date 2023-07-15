@@ -79,7 +79,7 @@ namespace UniversityApiBackend.Controllers
         {
           if (_context.Users == null)
           {
-              return Problem("Entity set 'UniversityDBContext.Users'  is null.");
+              return Problem("Entity set 'UniversityDBContext.User'  is null.");
           }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

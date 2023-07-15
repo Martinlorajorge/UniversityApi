@@ -88,7 +88,7 @@ namespace UniversityApiBackend.Controllers
         {
           if (_context.Chapters == null)
           {
-              return Problem("Entity set 'UniversityDBContext.Chapters'  is null.");
+              return Problem("Entity set 'UniversityDBContext.Chapters' is null.");
           }
             _context.Chapters.Add(chapter);
             await _context.SaveChangesAsync();
