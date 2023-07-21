@@ -37,10 +37,9 @@ namespace UniversityApiBackend.Controllers
             new User {
                 Id = 2,
                 Email = "pepe@cualquiercosa.com",
-                Name = "User1",
+                Name = "User 1",
                 Password = "pepe"
             }
-
         };
 
 
@@ -53,10 +52,10 @@ namespace UniversityApiBackend.Controllers
                 //Realizar busqueda de user en el context con LinQ
                 var searchUser = (from user in _context.Users
                                  where user.Name == userLogin.UserName &&
-                                 userLogin.Password == userLogin.Password
+                                 user.Password == userLogin.Password
                                  select user).FirstOrDefault(); //se encierra la consulta y se pone FirstOrDefault para traer la primera de todas las que pueda salir en el resultado de busqueda
 
-                Console.WriteLine("User Found", searchUser);
+                //Console.WriteLine("User Found", searchUser);
 
 
 
