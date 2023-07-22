@@ -37,7 +37,7 @@ namespace UniversityApiBackend.DataAccess
             //optionsBuilder.EnableSensitiveDataLogging();
 
 
-            //Este controla mejor la salida del log por la informacion
+            //Este controla mejor la salida del log por la informacion  --- Se Podria guardar informacion de tipo Warning o del level que quisiera
             optionsBuilder.LogTo(d => logger.Log(LogLevel.Information, d, new[] { DbLoggerCategory.Database.Name }), LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
